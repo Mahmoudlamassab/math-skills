@@ -13,7 +13,7 @@ func SortInt(table []int) []int {
 	return table
 }
 func Median(s []int) *big.Rat {
-	sorted := SortInt(append([]int(nil), s...))
+	sorted := SortInt(s)
 
 	middle := len(sorted) / 2
 

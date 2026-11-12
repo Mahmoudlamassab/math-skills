@@ -19,17 +19,17 @@ func getNumber(numbers []string) []int {
 	return slice
 }
 func RoundRat(value *big.Rat) *big.Int {
-	num := new(big.Int).Set(value.Num())
-	den := value.Denom()
-
 	quotient := new(big.Int)
 	remainder := new(big.Int)
+    //store the division of the numerator and the Denominator of value in quotient and the remainded
+	quotient.QuoRem(value.Num(), value.Denom(), remainder)
 
-	quotient.QuoRem(num, den, remainder)
-
-	twiceRemainder := new(big.Int).Mul(remainder, big.NewInt(2))
-
-	if new(big.Int).Abs(twiceRemainder).Cmp(den) >= 0 {
+	absRemainder := new(big.Int).Abs(remainder)//gets the absolute value of the remainder
+	//multiply the absRemainder two times to know wether it bigger than the the  Denominator
+	twiceRemainder := new(big.Int).Mul(absRemainder, big.NewInt(2))
+   //compare twiceRemainder with the denominator 
+	if twiceRemainder.Cmp(value.Denom()) >= 0 {
+		//if it's negative we substract one else add one
 		if value.Sign() < 0 {
 			quotient.Sub(quotient, big.NewInt(1))
 		} else {
